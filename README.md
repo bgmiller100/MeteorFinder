@@ -13,7 +13,7 @@ The University of Texas at Austin
 
 This algorithm searches the NOAA NEXRAD Level II Doppler Radar archive for phenomena indicating meteoroid falls.  For a given set of dates, archive files from across all available radar sites are retrieved \[1] and unwrapped using the Python ARM Radar Toolkit by \[2].  The original problem was motivated by \[3], and was developed using NEXRAD data for West, TX on 15 Feb, 2009.  The current algorithm uses radial velocity and spectral width data, with edge detection software in *Locator.py* by \[4].
 
-> \[1] Keh, R. (2018). Maual_Input_Scraper.py. The University of Texas at Austin
+> \[1] Staniewicz, S., Keh, R. (2018). Maual_Input_Scraper.py. The University of Texas at Austin
 >
 > \[2] Helmus, J.J. & Collis, S.M., (2016). The Python ARM Radar Toolkit (Py-ART), a Library for Working with Weather Radar Data in the Python Programming Language. Journal of Open Research Software. 4(1), p.e25. DOI: http://doi.org/10.5334/jors.119
 >
