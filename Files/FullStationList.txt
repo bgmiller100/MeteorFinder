@@ -1,0 +1,10 @@
+sites = ['KABR' ,'KENX','KABX','KAMA','PAHG','PGUA','KFFC','KBBX','PABC','KBLX','KBGM','PACG','KBMX','KBIS','KFCX','KCBX','KBOX',
+                         'KBRO','KBUF','KCXX','RKSG','KFDX','KCBW','KICX','KGRK','KCLX','KRLX','KCYS','KLOT','KILN','KCLE','KCAE','KGWX',
+                         'KCRP','KFTG','KDMX','KDTX','KDDC','KDOX','KDLH','KDYX','KEYX','KEPZ','KLRX','KBHX','KVWX','PAPD','KFSX','KSRX',
+                         'KFDR','KHPX','KPOE','KEOX','KFWS','KAPX','KGGW','KGLD','KMVX','KGJX','KGRR','KTFX','KGRB','KGSP','KUEX','KHDX',
+                         'KHGX','KHTX','KIND','KJKL','KDGX','KJAX','RODN','PHKM','KEAX','KBYX','PAKC','KMRX','RKJK','KARX','KLCH','KLGX',
+                         'KESX','KDFX','KILX','KLZK','KVTX','KLVX','KLBB','KMQT','KMXX','KMAX','KMLB','KNQA','KAMX','PAIH','KMAF','KMKX',
+                         'KMPX','KMBX','KMSX','KMOB','PHMO','KTYX','KVAX','KMHX','KOHX','KLIX','KOKX','PAEC','KLNX','KIWX','KEVX','KTLX',
+                         'KOAX','KPAH','KPDT','KDIX','KIWA','KPBZ','KSFX','KGYX','KRTX','KPUX','KDVN','KRAX','KUDX','KRGX','KRIW','KJGX',
+                         'KDAX','KMTX','KSJT','KEWX','KNKX','KMUX','KHNX','TJUA','KSOX','KATX','KSHV','KFSD','PHKI','PHWA','KOTX','KSGF',
+                         'KLSX','KCCX','KLWX','KTLH','KTBW','KTWX','KEMX','KINX','KVNX','KVBX','KAKQ','KICT','KLTX','KYUX']
