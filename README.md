@@ -46,16 +46,16 @@ v0.1: Initial release.  KFWS fall confirmed with 1 ID at 16:53:32, no false posi
 
 ## 4. OPERATION
 
-The "Master_MeteorFinder.py" function provides a simple interface for selecting the following variables.
+The "Master_MeteorFinder.py" function provides a simple interface for selecting the following variables.  For a demonstration, please see the *Files* folder 
 
-- *dates*: Interval of start/end dates as an int array \[yyyy,m,d,yyyy,m,d] \(default \[2009, 2, 15, 2009, 2, 16]).  Options: 1992-present  
-- *times*: Interval of start/end times for each day as an int array \[hhmmss, hhmmss] \(default \[000000,245960]).  Note that zeros cannot precede numbers, and thus may be excluded.  
-- *stations*: String list of 4-letter codes or 'all' \(default \['KFWS']).  Options: see FullStationList.txt.  
-- *colorCutoff*: Uint8 cutoff for valid color-coded measurements \(default 100)   
-- *edgeIntensity*: Float cutoff for intesity of velocity edges \(default 15)   
-- *sizeFilter*: Scalar ratio of image area to blob area for trimming small bodies  \(default 1e-4)  
-- *circularityFilter*: Scalar ratio of blob area to enclosing circle area for trimming anomolous bodies \(default 0.3)  
-- *fillFilter*: Precentage of velocity phenomena which must contain high velocity gradients, filtering out trivial phenomena.  \(default 50) 
+- "dates": Interval of start/end dates as an int array \[yyyy,m,d,yyyy,m,d] \(default \[2009, 2, 15, 2009, 2, 16]).  Options: 1992-present  
+- "times": Interval of start/end times for each day as an int array \[hhmmss, hhmmss] \(default \[000000,245960]).  Note that zeros cannot precede numbers, and thus may be excluded.  
+- "stations": String list of 4-letter codes or 'all' \(default \['KFWS']).  Options: see FullStationList.txt.  
+- "colorCutoff": Uint8 cutoff for valid color-coded measurements \(default 100)   
+- "edgeIntensity": Float cutoff for intesity of velocity edges \(default 15)   
+- "sizeFilter": Scalar ratio of image area to blob area for trimming small bodies  \(default 1e-4)  
+- "circularityFilter": Scalar ratio of blob area to enclosing circle area for trimming anomolous bodies \(default 0.3)  
+- "fillFilter": Precentage of velocity phenomena which must contain high velocity gradients, filtering out trivial phenomena.  \(default 50) 
 
 When running the program, the algorithm will fetch the NEXRAD data corresponding to the selected dates, times, and WGS-88D sites.  The console will display a record of the current data and site, followed by updates on the current time.  For each time instant, the console will display the unwrapped altitude cut for reasurrance.  An alert will be displayed whenever a fall phenomena is detected, indicating the altitude cut of interest, and the respective data images will be saved for manual analysis in the site code folder.  See the *Example Detection* folder for the results of the West, TX event (KFWS 02/15/2009 16:53:32).  Other known falls are stored in the *KnownFalls.txt* file.  
 
