@@ -32,15 +32,18 @@ SciPy (1.1.0)
 matplotlib (3.0.2)  
 netCDF4 (1.4.2)  
 opencv (3.4.4)  
-bs4 (4.7.1)  
+bs4 (4.7.1) 
+requests (2.21.0)
 
 Tested on Windows 7
+Tested on Spyder IDE; known issues with PyCharm
 
 ---
 
 ## 3. VERSION NOTES
 
 v0.1: Initial release.  KFWS fall confirmed with 1 ID at 16:53:32, no false positves over the full date 2/15/2009.
+v0.2: Memory leak fixed in Unwrapper
 
 ---
 
