@@ -9,13 +9,14 @@ import os.path as pth
 import os
 import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib 
+import gc
 
 from Locator import DetectMeteors
 
 def runFunction(filename, response , velMap, spwMap, cutoff, edgeFilter, areaFraction, colorIntensity, circRatio, fillFilt):
-    #Ensure closing of old figures
-    plt.close('all')   
-    
+    matplotlib.use("agg") 
+        
     #Instantiate RadarData dictionary and lists
     RadarData = {}
     RadarData['velocity'] = []
@@ -56,7 +57,10 @@ def runFunction(filename, response , velMap, spwMap, cutoff, edgeFilter, areaFra
             img[np.where((img==[255,255,255]).all(axis=2))] = [0,0,0] 
             #Attatch data to dictionary variable for passing
             RadarData['velocity'].append(img)
-            plt.close()
+            plt.close(fig)
+            plt.clf()
+            plt.cla()
+            gc.collect()
     
             # Instantiate figure 
             fig = plt.figure(figsize=(25,25), frameon=False)
@@ -79,19 +83,24 @@ def runFunction(filename, response , velMap, spwMap, cutoff, edgeFilter, areaFra
             img[np.where((img==[255,255,255]).all(axis=2))] = [0,0,0] 
             #Attatch data to dictionary variable for passing
             RadarData['spectrum_width'].append(img)
-            plt.close()
+            plt.close(fig)
+            plt.clf()
+            plt.cla()
+            gc.collect()
             
             #Update user on unwrapping progress
             print(str(x)+' ', end='')
             
         #Update for empty data scans
         else:
-            plt.close()
+            plt.close(fig)
+            plt.clf()
+            plt.cla()
+            gc.collect()
             print(str(x)+' ', end='')
             
     #Double-check figure closing
     del img
-    plt.close('all')
        
     #Run Locator
     #pyRadarData, cutoff, edgeFilter, areaFraction, colorIntensity, circRatio
