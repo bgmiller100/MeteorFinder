@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Dec 24 15:58:43 2018
 
-@author: Ben
-"""
 import pyart
 import os.path as pth
 import os
@@ -11,6 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib 
 import gc
+import cv2
 
 from Locator import DetectMeteors
 
@@ -23,8 +20,10 @@ def runFunction(filename, response , velMap, spwMap, cutoff, edgeFilter, areaFra
     RadarData['spectrum_width'] = []
     
     #Read in radar archive
-    RADAR_NAME = filename;        
+    RADAR_NAME = filename;  
     radar = pyart.io.read_nexrad_archive(RADAR_NAME, exclude_fields='reflectivity')
+    plotter = pyart.graph.RadarDisplay(radar)
+    
     plotter = pyart.graph.RadarDisplay(radar)
     
     #Display iteration scan time 
@@ -49,6 +48,8 @@ def runFunction(filename, response , velMap, spwMap, cutoff, edgeFilter, areaFra
             data = data*(70/np.max(np.abs(data)))
             #Format data for passing to Locator
             ax.pcolormesh(xDat, yDat, data, vmin=-70, vmax=70, cmap=velMap)
+            #NOTE: Color reduces data range, but required for openCV processing,
+            #      and may correct later to deeper resolution if necessary.
             fig.canvas.draw()
             img = np.frombuffer(fig.canvas.tostring_rgb(), dtype=np.uint8)
             img = img.reshape(fig.canvas.get_width_height()[::1]+(3,))
@@ -104,12 +105,24 @@ def runFunction(filename, response , velMap, spwMap, cutoff, edgeFilter, areaFra
        
     #Run Locator
     #pyRadarData, cutoff, edgeFilter, areaFraction, colorIntensity, circRatio
-    fallCount, fallId = DetectMeteors(RadarData,cutoff, edgeFilter, areaFraction, colorIntensity, circRatio, fillFilt, RADAR_NAME)
+    fallCount, fallId, xy= DetectMeteors(RadarData,cutoff, edgeFilter, areaFraction, colorIntensity, circRatio, fillFilt, RADAR_NAME)
 
-    #Update user on any detections
+    #Update user on any detections and get positions
     if fallCount>0:    
+        fallId = list(map(int,fallId))
         print('\n   FALLS DETECTED AT SCAN(S): '+str(fallId))
-    #Close Unwrapper
+        lonlat0 = [radar.longitude['data'],radar.latitude['data']]
+        lla = []
+        for ind, r in enumerate(xy, start=0):
+            lon,lat = pyart.core.cartesian_to_geographic_aeqd(r[0],r[1],lonlat0[0],lonlat0[1])
+            dist = np.sqrt(np.abs(r[0])**2+np.abs(r[1])**2)
+            el = radar.get_elevation(fallId[ind])
+            alt = dist*np.tan(el[0]*np.pi/180)
+            lla.append([lat.item(),lon.item(),alt])
+            print('   LLA:'+str([lat.item(),lon.item(),alt]))
+
+            #Close Unwrapper
+
     else:
         print('\n', end='')
         os.remove(RADAR_NAME)

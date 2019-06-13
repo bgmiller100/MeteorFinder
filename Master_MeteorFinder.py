@@ -12,22 +12,24 @@ from GetArchive import runFunction as fetchFile
 
 #SEE README FOR OPERATING INSTRUCTIONS
 #West,TX Meteorite Fall: KFWS 2/15/2009 16:53:32
+#Battle Mountain, NV   : KLRX 8/22/2012 06:
 
 # USER INPUT
-dates = [2009, 2, 15, 2009, 2, 16] 
-times = [165000, 165500] 
+dates = [2009, 2, 15, 2009, 2, 16]
+times = [0, 230000] 
 stations = ['KFWS']
 
-# ADVANCED INPUT
-colorCutoff = 100
-edgeIntensity = 15
+# ADVANCED INPUT, see readme and demo
+colorCutoff = 100 
+edgeIntensity = 12 #15, to loosen constraint
 sizeFilter = 1*(10**-4)
-circularityFilter = 0.3
-fillFilter = 50
+circularityFilter = 0 #0.3, to detect all
+fillFilter = 0 #50, to detect all
 
 #run program
 fetchFile(dates,times, stations, colorCutoff, edgeIntensity, sizeFilter , colorCutoff, circularityFilter, fillFilter)
 print('END') 
+
 
 
 
