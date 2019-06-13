@@ -1,11 +1,11 @@
 # MeteorFinder
 Detection of Meteoroid Falls from NEXRAD Radar Archives   
-ver 0.1
+ver 0.2
 
 Benjamin Miller <benjamin.g.miller@utexas.edu>  
 The University of Texas at Austin 
 
-02/01/2019
+06/13/2019
 
 ---
 
