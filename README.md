@@ -11,7 +11,7 @@ The University of Texas at Austin
 
 ## 1. SUMMARY
 
-This algorithm searches the NOAA NEXRAD Level II Doppler Radar archive for phenomena indicating meteoroid falls.  For a given set of dates, archive files from across all available radar sites are retrieved \[1] and unwrapped using the Python ARM Radar Toolkit by \[2].  The original problem was motivated by \[3], and was developed using NEXRAD data for West, TX on 15 Feb, 2009.  The current algorithm uses radial velocity and spectral width data, with edge detection software in *Locator.py* by \[4].
+This algorithm searches the NOAA NEXRAD Level II Doppler Radar archive for phenomena indicating meteoroid falls.  For a given set of dates, archive files from across all available radar sites are retrieved \[1] and unwrapped using the Python ARM Radar Toolkit by \[2].  Latitude/longitude/altitude data is returned for all detections.  The original problem was motivated by \[3], and was developed using NEXRAD data for West, TX on 15 Feb, 2009.  The current algorithm uses radial velocity and spectral width data, with edge detection software in *Locator.py* by \[4].
 
 > \[1] Staniewicz, S., Keh, R. (2018). Maual_Input_Scraper.py. The University of Texas at Austin
 >
@@ -43,7 +43,8 @@ Tested on Spyder IDE; known issues with PyCharm
 ## 3. VERSION NOTES
 
 v0.1: Initial release.  KFWS fall confirmed with 1 ID at 16:53:32, no false positves over the full date 2/15/2009.
-v0.2: Memory leak fixed in Unwrapper
+
+v0.2: KLRX fall confirmed in KnownFalls.txt, 2 ID's identified for previously known KFWS event.  Outputs include latitude/longitude/altitude for each ID. 
 
 ---
 
@@ -70,9 +71,9 @@ When running the program, the algorithm will fetch the NEXRAD data corresponding
 This primary subprocess controls the retrieval of the NEXRAD archive files via the bs4 package.  The main function organizes folder instantiation and sorting.  The called subfunctions "save_links" records the entire archive contents for calling by "download_link", which will filter relevent times before calling the Unwrapper.  Additional subfunctions download the respective files from the recorded links and format date ranges.  The colormaps for the Unwrapper are also instantiated for optimization.         
 
 ### Unwrapper.py
-This secondary subprocess opens the retrieved radar image set and formats the relevant data by scan order for further analysis.  The private graphing methods of the py-art package are modified and passed into custom matplotlib figures for high resolution image-format data, and these data are handed to the Locator as bgr image lists.  This subprocess runs for each time-specific archive retrieved by the parent process, and the level of scans will change based on the operation of the local radar station at any given time.        
+This secondary subprocess opens the retrieved radar image set and formats the relevant data by scan order for further analysis.  The private graphing methods of the py-art package are modified and passed into custom matplotlib figures for high resolution image-format data, and these data are handed to the Locator as bgr image lists.  This subprocess runs for each time-specific archive retrieved by the parent process, and the level of scans will change based on the operation of the local radar station at any given time.  If falls are identified, the latitude/longitude/altitude positions are calculated by Py-ART's azimuthal equidistant projection.        
 
 ### Locator.py
-This tertiary subprocess finally looks for phenomena of interest within the retrieved data.  In this process, velocity images are analyzed first as they are robust to false-positives.  The color content and radial distance from the station are used as preliminary image masks.  Then, color gradients are calculated and trivial solutions are removed.  Using contour-based object detection, remaining gradient data is filtered based on area, shape, and edge density.  Passing objects are added to storage and the scan is added to a candidate list.  If an object was detected, the spectrum width algorithm runs.  However, if more than one object was detected, the data will be scrapped as a preventative measure against weather effects  For spectrum width, the preliminary filtering is followed directly by object detection, but only applying area and shape filters.  If the two data type algorithms result in a matching scan level candidate, the objects are marked on their respective unprocessed images and saved, and the user is alerted through the Unwrapper.          
+This tertiary subprocess finally looks for phenomena of interest within the retrieved data.  In this process, velocity images are analyzed first as they are robust to false-positives.  The color content and radial distance from the station are used as preliminary image masks.  Then, color gradients are calculated and trivial solutions are removed.  Using contour-based object detection, remaining gradient data is filtered based on area, shape, and edge density.  The altidude cuts are collapsed prior to identification, exluding the lowermost quarter cuts.  Valid targets are added to a candidate list, and the spectrum width algorithm runs.  For spectrum width processing, the preliminary filtering is followed directly by object detection, applying area, shape, and density filters.  If the two data type algorithms result in a single matching scan level candidate, the algorithm loosens detection restrictions and captures all markers present in the spectrum width data.  The respective unprocessed images are saved, and the user is alerted of the altitudes and LLA positions through the Unwrapper.            
 
 	
